@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { cn } from "@/lib/utils";
 import { OptionButton } from "./OptionButton";
+import { Result } from "./Result";
 
 export const Quiz = () => {
     const questions = [
         {
             question: "What is the syntax to read input from the user?",
             options: ["printf", "scanf", "void", "struct"],
-            answer: "4",
+            answer: "scanf",
         },
         {
             question: "Capital of France?",
@@ -20,15 +21,50 @@ export const Quiz = () => {
             answer: "Blue",
         },
     ];
+    //  var answers = [];
+
     const [currentIndex, setCurrentIndex] = useState(0);
-     const [selectedOption, setSelectedOption] = useState(null);
-    const current = questions[currentIndex];
+    const [answers, setAnswers] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [showResult, setShowResult] = useState(false);
+    var current = questions[currentIndex];  
+    
 
      // Handle option selection
     const handleOptionClick = (option) => {
         setSelectedOption(option);
         // Here you could add logic for checking if the answer is correct
     };
+    // Handle option selection
+    const handlePrevClick = () => {
+        if(currentIndex>0) {
+            setCurrentIndex(currentIndex-1);
+        }
+    };
+    // Handle option selection
+    const handleNextClick = () => {
+        setAnswers([
+            ...answers,
+            {
+                question : current,
+                answer: selectedOption
+
+            }]);
+        if(currentIndex<questions.length-1) {
+            setSelectedOption(null);
+            setCurrentIndex(currentIndex+1);
+        }
+    };
+
+    // Handle option selection
+    const handleSubmitClick = () => {
+            handleNextClick();
+            setShowResult(true);
+    };
+    if(showResult) 
+    {
+        return <Result answers={answers} />;
+    }
 
     return (
         <div className="grid grid-cols-4 gap-2">
@@ -45,17 +81,26 @@ export const Quiz = () => {
 
                    
             ))}
-            <div className="justify-center">
-                <button 
-                    className="btn"
+            <div className="col-span-2 col-start-2">
+                {/* <button 
+                    className={cn(currentIndex==0 ? "hidden" : "","cntrl-btn")}
+                    onClick={() => handlePrevClick()}
                 >
                     Prev
+                </button> */}
+                <button
+                    className={cn(currentIndex==questions.length-1 ? "hidden" : "","cntrl-btn")}
+                    onClick={() => handleNextClick()}
+                    disabled = {selectedOption === null }
+                >
+                    Next  
                 </button>
                 <button
-                    className="btn"
-                    disabled
-                    >
-                    Next
+                    className={cn(currentIndex==questions.length-1 ? "" : "hidden","cntrl-btn")}
+                    onClick={() => handleSubmitClick()}
+                    disabled = {selectedOption === null }
+                >
+                    Submit  
                 </button>
 
             </div>

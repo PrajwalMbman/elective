@@ -124,10 +124,16 @@
   background: linear-gradient(135deg, #00c6ff, #0072ff);
   box-shadow: 0px 0px 10px rgba(0, 150, 255, 0.7);
 }
-.btn {
-  margin-top: 2px;
-  background-color: #0072ff;
-  height: 40px;
-  padding: 8px;
+.cntrl-btn {
+  width: 100%;
+  margin: 8px 2px;
   color: white;
+  background: linear-gradient(135deg, #1f28a7, #2575fc);
+  width: 80px;
+  padding: 10px 10px;
+}
+.cntrl-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0px 2px 12px #60666d;
+  cursor: pointer;
 }
